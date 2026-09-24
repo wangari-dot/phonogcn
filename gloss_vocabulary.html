@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KSL Gloss Vocabulary</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 32px 24px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #90e0ef;
+      letter-spacing: 1px;
+    }
+    header p {
+      color: #8b949e;
+      margin-top: 6px;
+      font-size: 0.95rem;
+    }
+    .controls {
+      max-width: 560px;
+      margin: 0 auto 28px auto;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    #search {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #e6edf3;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    #search:focus { border-color: #90e0ef; }
+    #search::placeholder { color: #555; }
+    .stats {
+      color: #8b949e;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: default;
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .card:hover {
+      border-color: #90e0ef;
+      background: #1c2a35;
+      transform: translateY(-2px);
+    }
+    .card .gloss {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #e6edf3;
+      word-break: break-word;
+    }
+    .card .id {
+      font-size: 0.75rem;
+      color: #8b949e;
+      font-family: monospace;
+    }
+    .card.highlight {
+      border-color: #f9c74f;
+      background: #1e1a0d;
+    }
+    .no-results {
+      text-align: center;
+      color: #8b949e;
+      grid-column: 1/-1;
+      padding: 48px;
+      font-size: 1rem;
+    }
+    .letter-jump {
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .letter-btn {
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #90e0ef;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .letter-btn:hover { background: #1c2a35; }
+    .letter-btn.active { background: #90e0ef; color: #0d1117; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KSL Gloss Vocabulary</h1>
+    <p>Kenyan Sign Language &nbsp;·&nbsp; <span id="total">607</span> glosses</p>
+  </header>
+
+  <div class="controls">
+    <input id="search" type="text" placeholder="Search glosses..." autocomplete="off"/>
+    <span class="stats" id="count-label">Showing 607 of 607</span>
+  </div>
+
+  <div class="letter-jump" id="letter-jump"></div>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const vocab = [{"id": 0, "gloss": "ABDUCT"}, {"id": 1, "gloss": "ABOUT"}, {"id": 2, "gloss": "ABOVE"}, {"id": 3, "gloss": "ABUSE"}, {"id": 4, "gloss": "ACCEPT"}, {"id": 5, "gloss": "ACCESS"}, {"id": 6, "gloss": "ACCORDING"}, {"id": 7, "gloss": "ACCOUNTABLE"}, {"id": 8, "gloss": "ACCUSE"}, {"id": 9, "gloss": "ACHIEVE"}, {"id": 10, "gloss": "ACROSS"}, {"id": 11, "gloss": "ACT"}, {"id": 12, "gloss": "ACTION"}, {"id": 13, "gloss": "ACTIVE"}, {"id": 14, "gloss": "ACTIVIST"}, {"id": 15, "gloss": "ACTIVITY"}, {"id": 16, "gloss": "ADD"}, {"id": 17, "gloss": "AFFECT"}, {"id": 18, "gloss": "AFRICA"}, {"id": 19, "gloss": "AGAIN"}, {"id": 20, "gloss": "AGAINST"}, {"id": 21, "gloss": "AGE"}, {"id": 22, "gloss": "AGENCY"}, {"id": 23, "gloss": "AGREE"}, {"id": 24, "gloss": "AGREEMENT"}, {"id": 25, "gloss": "AGRICULTURE"}, {"id": 26, "gloss": "AIM"}, {"id": 27, "gloss": "ALERT"}, {"id": 28, "gloss": "ALLOW"}, {"id": 29, "gloss": "ALMOST"}, {"id": 30, "gloss": "ALWAYS"}, {"id": 31, "gloss": "AMONG"}, {"id": 32, "gloss": "ANGER"}, {"id": 33, "gloss": "ANGRY"}, {"id": 34, "gloss": "ANNOUNCE"}, {"id": 35, "gloss": "ANSWER"}, {"id": 36, "gloss": "ANY"}, {"id": 37, "gloss": "AREA"}, {"id": 38, "gloss": "ARREST"}, {"id": 39, "gloss": "ARRIVE"}, {"id": 40, "gloss": "ATTACK"}, {"id": 41, "gloss": "ATTEND"}, {"id": 42, "gloss": "AUTHORITY"}, {"id": 43, "gloss": "BABY"}, {"id": 44, "gloss": "BAD"}, {"id": 45, "gloss": "BAG"}, {"id": 46, "gloss": "BASE"}, {"id": 47, "gloss": "BECOME"}, {"id": 48, "gloss": "BEHIND"}, {"id": 49, "gloss": "BELIEVE"}, {"id": 50, "gloss": "BELONG"}, {"id": 51, "gloss": "BENCH"}, {"id": 52, "gloss": "BETTER"}, {"id": 53, "gloss": "BETWEEN"}, {"id": 54, "gloss": "BILLION"}, {"id": 55, "gloss": "BIRTH"}, {"id": 56, "gloss": "BLAME"}, {"id": 57, "gloss": "BLOCK"}, {"id": 58, "gloss": "BODY"}, {"id": 59, "gloss": "BORDER"}, {"id": 60, "gloss": "BOTH"}, {"id": 61, "gloss": "BREAK"}, {"id": 62, "gloss": "BRING"}, {"id": 63, "gloss": "BUDGET"}, {"id": 64, "gloss": "BUILD"}, {"id": 65, "gloss": "BUILDING"}, {"id": 66, "gloss": "BULLET"}, {"id": 67, "gloss": "BURDEN"}, {"id": 68, "gloss": "BUSINESS"}, {"id": 69, "gloss": "BUY"}, {"id": 70, "gloss": "CALL"}, {"id": 71, "gloss": "CAN"}, {"id": 72, "gloss": "CANNOT"}, {"id": 73, "gloss": "CAR"}, {"id": 74, "gloss": "CARE"}, {"id": 75, "gloss": "CAREFUL"}, {"id": 76, "gloss": "CARRY"}, {"id": 77, "gloss": "CAUSE"}, {"id": 78, "gloss": "CELEBRATE"}, {"id": 79, "gloss": "CENSUS"}, {"id": 80, "gloss": "CENTRE"}, {"id": 81, "gloss": "CERTIFICATE"}, {"id": 82, "gloss": "CHAIR"}, {"id": 83, "gloss": "CHAMPION"}, {"id": 84, "gloss": "CHANCE"}, {"id": 85, "gloss": "CHAOS"}, {"id": 86, "gloss": "CHARGE"}, {"id": 87, "gloss": "CHIEF"}, {"id": 88, "gloss": "CHILD"}, {"id": 89, "gloss": "CHOOSE"}, {"id": 90, "gloss": "CITY"}, {"id": 91, "gloss": "CLAIM"}, {"id": 92, "gloss": "CLEAR"}, {"id": 93, "gloss": "CLOSE"}, {"id": 94, "gloss": "COLLECT"}, {"id": 95, "gloss": "COME"}, {"id": 96, "gloss": "COMMISSION"}, {"id": 97, "gloss": "COMMUNITY"}, {"id": 98, "gloss": "COMPANY"}, {"id": 99, "gloss": "COMPARE"}, {"id": 100, "gloss": "COMPLAIN"}, {"id": 101, "gloss": "COMPLAINT"}, {"id": 102, "gloss": "CONDEMN"}, {"id": 103, "gloss": "CONFIRM"}, {"id": 104, "gloss": "CONFLICT"}, {"id": 105, "gloss": "CONGREGATION"}, {"id": 106, "gloss": "CONSTITUENCY"}, {"id": 107, "gloss": "CONSTITUTION"}, {"id": 108, "gloss": "CONSTRUCTION"}, {"id": 109, "gloss": "CONTRIBUTE"}, {"id": 110, "gloss": "CONTROL"}, {"id": 111, "gloss": "CONVERSATION"}, {"id": 112, "gloss": "COPPER"}, {"id": 113, "gloss": "CORRUPTION"}, {"id": 114, "gloss": "COST"}, {"id": 115, "gloss": "COURT"}, {"id": 116, "gloss": "CREATE"}, {"id": 117, "gloss": "CRIME"}, {"id": 118, "gloss": "CRIMINAL"}, {"id": 119, "gloss": "CRISIS"}, {"id": 120, "gloss": "CRITICISE"}, {"id": 121, "gloss": "CUT"}, {"id": 122, "gloss": "DAILY"}, {"id": 123, "gloss": "DANCE"}, {"id": 124, "gloss": "DANGER"}, {"id": 125, "gloss": "DATA"}, {"id": 126, "gloss": "DAUGHTER"}, {"id": 127, "gloss": "DEATH"}, {"id": 128, "gloss": "DEBT"}, {"id": 129, "gloss": "DECIDE"}, {"id": 130, "gloss": "DECISION"}, {"id": 131, "gloss": "DEDUCTION"}, {"id": 132, "gloss": "DEEP"}, {"id": 133, "gloss": "DELAY"}, {"id": 134, "gloss": "DEMAND"}, {"id": 135, "gloss": "DEPEND"}, {"id": 136, "gloss": "DEPUTY"}, {"id": 137, "gloss": "DESTROY"}, {"id": 138, "gloss": "DETAIL"}, {"id": 139, "gloss": "DEVELOP"}, {"id": 140, "gloss": "DIE"}, {"id": 141, "gloss": "DIFFERENT"}, {"id": 142, "gloss": "DIFFICULT"}, {"id": 143, "gloss": "DIRECT"}, {"id": 144, "gloss": "DISAPPEAR"}, {"id": 145, "gloss": "DISEASE"}, {"id": 146, "gloss": "DISPUTE"}, {"id": 147, "gloss": "DIVIDE"}, {"id": 148, "gloss": "DOCTOR"}, {"id": 149, "gloss": "DRIVE"}, {"id": 150, "gloss": "EACH"}, {"id": 151, "gloss": "EARLY"}, {"id": 152, "gloss": "EAST"}, {"id": 153, "gloss": "EASTER"}, {"id": 154, "gloss": "EASY"}, {"id": 155, "gloss": "ECONOMY"}, {"id": 156, "gloss": "EDUCATION"}, {"id": 157, "gloss": "EFFORT"}, {"id": 158, "gloss": "EIGHT"}, {"id": 159, "gloss": "ELECTION"}, {"id": 160, "gloss": "EMBASSY"}, {"id": 161, "gloss": "END"}, {"id": 162, "gloss": "ENEMY"}, {"id": 163, "gloss": "ENGAGE"}, {"id": 164, "gloss": "ENOUGH"}, {"id": 165, "gloss": "ENTER"}, {"id": 166, "gloss": "ENTERTAIN"}, {"id": 167, "gloss": "ENVIRONMENT"}, {"id": 168, "gloss": "EQUAL"}, {"id": 169, "gloss": "ESPECIALLY"}, {"id": 170, "gloss": "ESTATE"}, {"id": 171, "gloss": "EVENING"}, {"id": 172, "gloss": "EVENT"}, {"id": 173, "gloss": "EVERY"}, {"id": 174, "gloss": "EVIDENCE"}, {"id": 175, "gloss": "EXAMPLE"}, {"id": 176, "gloss": "EXPAND"}, {"id": 177, "gloss": "EXPECT"}, {"id": 178, "gloss": "EXPERIENCE"}, {"id": 179, "gloss": "EXPERT"}, {"id": 180, "gloss": "EXPLAIN"}, {"id": 181, "gloss": "EYE"}, {"id": 182, "gloss": "FACE"}, {"id": 183, "gloss": "FAIL"}, {"id": 184, "gloss": "FALL"}, {"id": 185, "gloss": "FAN"}, {"id": 186, "gloss": "FAR"}, {"id": 187, "gloss": "FARMER"}, {"id": 188, "gloss": "FATHER"}, {"id": 189, "gloss": "FEAR"}, {"id": 190, "gloss": "FEEL"}, {"id": 191, "gloss": "FELLOW"}, {"id": 192, "gloss": "FERTILISER"}, {"id": 193, "gloss": "FEW"}, {"id": 194, "gloss": "FIGHT"}, {"id": 195, "gloss": "FILE"}, {"id": 196, "gloss": "FINAL"}, {"id": 197, "gloss": "FIND"}, {"id": 198, "gloss": "FINISH"}, {"id": 199, "gloss": "FINISH-NOT"}, {"id": 200, "gloss": "FIRST"}, {"id": 201, "gloss": "FIVE"}, {"id": 202, "gloss": "FLAG"}, {"id": 203, "gloss": "FLY"}, {"id": 204, "gloss": "FOLLOW"}, {"id": 205, "gloss": "FOR"}, {"id": 206, "gloss": "FORCE"}, {"id": 207, "gloss": "FOREIGN"}, {"id": 208, "gloss": "FOREST"}, {"id": 209, "gloss": "FORMAL"}, {"id": 210, "gloss": "FOUR"}, {"id": 211, "gloss": "FREE"}, {"id": 212, "gloss": "FRIDAY"}, {"id": 213, "gloss": "FRIEND"}, {"id": 214, "gloss": "FRUSTRATE"}, {"id": 215, "gloss": "FS-ARV"}, {"id": 216, "gloss": "FS-HIV"}, {"id": 217, "gloss": "FS-LINDA-MAMA"}, {"id": 218, "gloss": "FS-SOG"}, {"id": 219, "gloss": "FULL"}, {"id": 220, "gloss": "FUTURE"}, {"id": 221, "gloss": "GATHER"}, {"id": 222, "gloss": "GENERATION"}, {"id": 223, "gloss": "GET"}, {"id": 224, "gloss": "GIRL"}, {"id": 225, "gloss": "GLOBAL"}, {"id": 226, "gloss": "GO"}, {"id": 227, "gloss": "GOAL"}, {"id": 228, "gloss": "GOD"}, {"id": 229, "gloss": "GOLD"}, {"id": 230, "gloss": "GOOD"}, {"id": 231, "gloss": "GOVERN"}, {"id": 232, "gloss": "GOVERNOR"}, {"id": 233, "gloss": "GROUND"}, {"id": 234, "gloss": "GROUP"}, {"id": 235, "gloss": "GROW"}, {"id": 236, "gloss": "GUN"}, {"id": 237, "gloss": "HAND"}, {"id": 238, "gloss": "HANDLE"}, {"id": 239, "gloss": "HAPPEN"}, {"id": 240, "gloss": "HARD"}, {"id": 241, "gloss": "HASHTAG"}, {"id": 242, "gloss": "HEAD"}, {"id": 243, "gloss": "HEALTH"}, {"id": 244, "gloss": "HEAR"}, {"id": 245, "gloss": "HEAVY"}, {"id": 246, "gloss": "HELP"}, {"id": 247, "gloss": "HER"}, {"id": 248, "gloss": "HIDE"}, {"id": 249, "gloss": "HIGH"}, {"id": 250, "gloss": "HIGH-SCHOOL"}, {"id": 251, "gloss": "HIM"}, {"id": 252, "gloss": "HOLD"}, {"id": 253, "gloss": "HOPE"}, {"id": 254, "gloss": "HOSPITAL"}, {"id": 255, "gloss": "HOST"}, {"id": 256, "gloss": "HOUR"}, {"id": 257, "gloss": "HOUSE"}, {"id": 258, "gloss": "HOUSEHOLD"}, {"id": 259, "gloss": "HOW"}, {"id": 260, "gloss": "HUMAN"}, {"id": 261, "gloss": "IF"}, {"id": 262, "gloss": "ILLEGAL"}, {"id": 263, "gloss": "IMPACT"}, {"id": 264, "gloss": "IMPORTANT"}, {"id": 265, "gloss": "IMPROVE"}, {"id": 266, "gloss": "INCLUDE"}, {"id": 267, "gloss": "INCOME"}, {"id": 268, "gloss": "INCREASE"}, {"id": 269, "gloss": "INDUSTRY"}, {"id": 270, "gloss": "INFRASTRUCTURE"}, {"id": 271, "gloss": "INSIDE"}, {"id": 272, "gloss": "INTELLIGENCE"}, {"id": 273, "gloss": "INTERNATIONAL"}, {"id": 274, "gloss": "INVEST"}, {"id": 275, "gloss": "INVESTIGATE"}, {"id": 276, "gloss": "INVESTIGATION"}, {"id": 277, "gloss": "ISSUE"}, {"id": 278, "gloss": "JOB"}, {"id": 279, "gloss": "JOIN"}, {"id": 280, "gloss": "JOURNEY"}, {"id": 281, "gloss": "JUDGE"}, {"id": 282, "gloss": "JUNE"}, {"id": 283, "gloss": "JUSTICE"}, {"id": 284, "gloss": "KEEP"}, {"id": 285, "gloss": "KEY"}, {"id": 286, "gloss": "KILL"}, {"id": 287, "gloss": "KILOMETRE"}, {"id": 288, "gloss": "KNOW"}, {"id": 289, "gloss": "LAND"}, {"id": 290, "gloss": "LAST"}, {"id": 291, "gloss": "LATE"}, {"id": 292, "gloss": "LAW"}, {"id": 293, "gloss": "LAWYER"}, {"id": 294, "gloss": "LEAD"}, {"id": 295, "gloss": "LEADER"}, {"id": 296, "gloss": "LEADERSHIP"}, {"id": 297, "gloss": "LEARN"}, {"id": 298, "gloss": "LEAVE"}, {"id": 299, "gloss": "LEG"}, {"id": 300, "gloss": "LESS"}, {"id": 301, "gloss": "LIFE"}, {"id": 302, "gloss": "LIKE"}, {"id": 303, "gloss": "LINE"}, {"id": 304, "gloss": "LIONESS"}, {"id": 305, "gloss": "LISTEN"}, {"id": 306, "gloss": "LIVE"}, {"id": 307, "gloss": "LOCAL"}, {"id": 308, "gloss": "LONG"}, {"id": 309, "gloss": "LOOK"}, {"id": 310, "gloss": "LOSE"}, {"id": 311, "gloss": "LOVE"}, {"id": 312, "gloss": "MAKE"}, {"id": 313, "gloss": "MAN"}, {"id": 314, "gloss": "MANAGE"}, {"id": 315, "gloss": "MARK"}, {"id": 316, "gloss": "MARKET"}, {"id": 317, "gloss": "MASS"}, {"id": 318, "gloss": "MATCH"}, {"id": 319, "gloss": "MAYBE"}, {"id": 320, "gloss": "MEAN"}, {"id": 321, "gloss": "MEDIA"}, {"id": 322, "gloss": "MEDICINE"}, {"id": 323, "gloss": "MEET"}, {"id": 324, "gloss": "MEETING"}, {"id": 325, "gloss": "MEMBER"}, {"id": 326, "gloss": "METHOD"}, {"id": 327, "gloss": "MIDDLE"}, {"id": 328, "gloss": "MILLION"}, {"id": 329, "gloss": "MINER"}, {"id": 330, "gloss": "MINIMUM"}, {"id": 331, "gloss": "MINISTER"}, {"id": 332, "gloss": "MINISTRY"}, {"id": 333, "gloss": "MINUTE"}, {"id": 334, "gloss": "MISSING"}, {"id": 335, "gloss": "MISSION"}, {"id": 336, "gloss": "MOMENT"}, {"id": 337, "gloss": "MONTH"}, {"id": 338, "gloss": "MORNING"}, {"id": 339, "gloss": "MOST"}, {"id": 340, "gloss": "MOTHER"}, {"id": 341, "gloss": "MOVE"}, {"id": 342, "gloss": "MUCH"}, {"id": 343, "gloss": "MURDER"}, {"id": 344, "gloss": "MUSIC"}, {"id": 345, "gloss": "MY"}, {"id": 346, "gloss": "NAME"}, {"id": 347, "gloss": "NATION"}, {"id": 348, "gloss": "NATIONAL"}, {"id": 349, "gloss": "NEAR"}, {"id": 350, "gloss": "NEED"}, {"id": 351, "gloss": "NEIGHBOUR"}, {"id": 352, "gloss": "NEWS"}, {"id": 353, "gloss": "NEXT"}, {"id": 354, "gloss": "NIGHT"}, {"id": 355, "gloss": "NO"}, {"id": 356, "gloss": "NORMAL"}, {"id": 357, "gloss": "NORTH"}, {"id": 358, "gloss": "NUMBER"}, {"id": 359, "gloss": "OFFICE"}, {"id": 360, "gloss": "OFFICER"}, {"id": 361, "gloss": "OFFICIAL"}, {"id": 362, "gloss": "OFTEN"}, {"id": 363, "gloss": "OK"}, {"id": 364, "gloss": "OLD"}, {"id": 365, "gloss": "ON"}, {"id": 366, "gloss": "OPEN"}, {"id": 367, "gloss": "OPERATION"}, {"id": 368, "gloss": "OPPOSITION"}, {"id": 369, "gloss": "OR"}, {"id": 370, "gloss": "ORDER"}, {"id": 371, "gloss": "ORGANISE"}, {"id": 372, "gloss": "OWNER"}, {"id": 373, "gloss": "PARENT"}, {"id": 374, "gloss": "PARLIAMENT"}, {"id": 375, "gloss": "PART"}, {"id": 376, "gloss": "PARTNER"}, {"id": 377, "gloss": "PARTY"}, {"id": 378, "gloss": "PASS"}, {"id": 379, "gloss": "PAST"}, {"id": 380, "gloss": "PASTOR"}, {"id": 381, "gloss": "PATIENT"}, {"id": 382, "gloss": "PAY"}, {"id": 383, "gloss": "PEACE"}, {"id": 384, "gloss": "PLACE"}, {"id": 385, "gloss": "PLAN"}, {"id": 386, "gloss": "PLASTIC"}, {"id": 387, "gloss": "PLAY"}, {"id": 388, "gloss": "PLUS"}, {"id": 389, "gloss": "POINT"}, {"id": 390, "gloss": "POLITICIAN"}, {"id": 391, "gloss": "POLITICS"}, {"id": 392, "gloss": "POOR"}, {"id": 393, "gloss": "POPE"}, {"id": 394, "gloss": "POPULATION"}, {"id": 395, "gloss": "POSITION"}, {"id": 396, "gloss": "POWER"}, {"id": 397, "gloss": "PREGNANT"}, {"id": 398, "gloss": "PREPARE"}, {"id": 399, "gloss": "PRESENTER"}, {"id": 400, "gloss": "PREVENT"}, {"id": 401, "gloss": "PRICE"}, {"id": 402, "gloss": "PRIMARY"}, {"id": 403, "gloss": "PRIVATE"}, {"id": 404, "gloss": "PROBLEM"}, {"id": 405, "gloss": "PROGRAMME"}, {"id": 406, "gloss": "PROGRESS"}, {"id": 407, "gloss": "PROJECT"}, {"id": 408, "gloss": "PROMISE"}, {"id": 409, "gloss": "PROPERTY"}, {"id": 410, "gloss": "PROSECUTION"}, {"id": 411, "gloss": "PROTECT"}, {"id": 412, "gloss": "PROTEST"}, {"id": 413, "gloss": "PROTESTER"}, {"id": 414, "gloss": "PUBLIC"}, {"id": 415, "gloss": "PUPIL"}, {"id": 416, "gloss": "PURPOSE"}, {"id": 417, "gloss": "PUSH"}, {"id": 418, "gloss": "PUT"}, {"id": 419, "gloss": "QUALIFY"}, {"id": 420, "gloss": "QUESTION"}, {"id": 421, "gloss": "QUICK"}, {"id": 422, "gloss": "QUIET"}, {"id": 423, "gloss": "RADIO"}, {"id": 424, "gloss": "RAISE"}, {"id": 425, "gloss": "REACH"}, {"id": 426, "gloss": "READY"}, {"id": 427, "gloss": "REASON"}, {"id": 428, "gloss": "RECEIVE"}, {"id": 429, "gloss": "RECENT"}, {"id": 430, "gloss": "RECORD"}, {"id": 431, "gloss": "RECOVER"}, {"id": 432, "gloss": "RECRUIT"}, {"id": 433, "gloss": "REDUCE"}, {"id": 434, "gloss": "REFUSE"}, {"id": 435, "gloss": "REGION"}, {"id": 436, "gloss": "REGISTER"}, {"id": 437, "gloss": "RELEASE"}, {"id": 438, "gloss": "REMEMBER"}, {"id": 439, "gloss": "REMOVE"}, {"id": 440, "gloss": "REPLACE"}, {"id": 441, "gloss": "REPORTER"}, {"id": 442, "gloss": "RESCUE"}, {"id": 443, "gloss": "RESEARCH"}, {"id": 444, "gloss": "RESOURCE"}, {"id": 445, "gloss": "RESPONSIBILITY"}, {"id": 446, "gloss": "RESPONSIBLE"}, {"id": 447, "gloss": "RESULT"}, {"id": 448, "gloss": "RETURN"}, {"id": 449, "gloss": "REVENUE"}, {"id": 450, "gloss": "RIGHT"}, {"id": 451, "gloss": "RISE"}, {"id": 452, "gloss": "RISK"}, {"id": 453, "gloss": "ROAD"}, {"id": 454, "gloss": "RULE"}, {"id": 455, "gloss": "SAD"}, {"id": 456, "gloss": "SAFE"}, {"id": 457, "gloss": "SALARY"}, {"id": 458, "gloss": "SAME"}, {"id": 459, "gloss": "SATURDAY"}, {"id": 460, "gloss": "SAVE"}, {"id": 461, "gloss": "SCHEME"}, {"id": 462, "gloss": "SEARCH"}, {"id": 463, "gloss": "SEASON"}, {"id": 464, "gloss": "SECOND"}, {"id": 465, "gloss": "SECRET"}, {"id": 466, "gloss": "SECTOR"}, {"id": 467, "gloss": "SECURITY"}, {"id": 468, "gloss": "SELF"}, {"id": 469, "gloss": "SEND"}, {"id": 470, "gloss": "SERIOUS"}, {"id": 471, "gloss": "SERVE"}, {"id": 472, "gloss": "SERVICE"}, {"id": 473, "gloss": "SET"}, {"id": 474, "gloss": "SEVEN"}, {"id": 475, "gloss": "SEX"}, {"id": 476, "gloss": "SHARE"}, {"id": 477, "gloss": "SHE"}, {"id": 478, "gloss": "SHORT"}, {"id": 479, "gloss": "SICK"}, {"id": 480, "gloss": "SIDE"}, {"id": 481, "gloss": "SINCE"}, {"id": 482, "gloss": "SIT"}, {"id": 483, "gloss": "SITUATION"}, {"id": 484, "gloss": "SIX"}, {"id": 485, "gloss": "SLOW"}, {"id": 486, "gloss": "SMALL"}, {"id": 487, "gloss": "SOLUTION"}, {"id": 488, "gloss": "SOLVE"}, {"id": 489, "gloss": "SOME"}, {"id": 490, "gloss": "SOMETIME"}, {"id": 491, "gloss": "SON"}, {"id": 492, "gloss": "SOUTH"}, {"id": 493, "gloss": "SPACE"}, {"id": 494, "gloss": "SPEAK"}, {"id": 495, "gloss": "SPECIAL"}, {"id": 496, "gloss": "SPEND"}, {"id": 497, "gloss": "SPOIL"}, {"id": 498, "gloss": "SPORT"}, {"id": 499, "gloss": "SPREAD"}, {"id": 500, "gloss": "STADIUM"}, {"id": 501, "gloss": "STAKEHOLDER"}, {"id": 502, "gloss": "STATE"}, {"id": 503, "gloss": "STATEMENT"}, {"id": 504, "gloss": "STATION"}, {"id": 505, "gloss": "STAY"}, {"id": 506, "gloss": "STILL"}, {"id": 507, "gloss": "STOP"}, {"id": 508, "gloss": "STORY"}, {"id": 509, "gloss": "STRIKE"}, {"id": 510, "gloss": "STRONG"}, {"id": 511, "gloss": "STRUGGLE"}, {"id": 512, "gloss": "STUDENT"}, {"id": 513, "gloss": "STUDY"}, {"id": 514, "gloss": "SUFFER"}, {"id": 515, "gloss": "SUMMIT"}, {"id": 516, "gloss": "SUNDAY"}, {"id": 517, "gloss": "SUPPORT"}, {"id": 518, "gloss": "SURE"}, {"id": 519, "gloss": "SUSPECT"}, {"id": 520, "gloss": "SUSTAIN"}, {"id": 521, "gloss": "SYSTEM"}, {"id": 522, "gloss": "TAKE"}, {"id": 523, "gloss": "TARGET"}, {"id": 524, "gloss": "TAX"}, {"id": 525, "gloss": "TEACH"}, {"id": 526, "gloss": "TEACHER"}, {"id": 527, "gloss": "TEAM"}, {"id": 528, "gloss": "TEAR-GAS"}, {"id": 529, "gloss": "TECHNOLOGY"}, {"id": 530, "gloss": "TELEVISION"}, {"id": 531, "gloss": "TELL"}, {"id": 532, "gloss": "TEMPORARY"}, {"id": 533, "gloss": "TERM"}, {"id": 534, "gloss": "TERROR"}, {"id": 535, "gloss": "TEST"}, {"id": 536, "gloss": "THAT"}, {"id": 537, "gloss": "THEN"}, {"id": 538, "gloss": "THERE"}, {"id": 539, "gloss": "THEREFORE"}, {"id": 540, "gloss": "THING"}, {"id": 541, "gloss": "THINK"}, {"id": 542, "gloss": "THREE"}, {"id": 543, "gloss": "THROUGH"}, {"id": 544, "gloss": "THURSDAY"}, {"id": 545, "gloss": "TODAY"}, {"id": 546, "gloss": "TOGETHER"}, {"id": 547, "gloss": "TONIGHT"}, {"id": 548, "gloss": "TOP"}, {"id": 549, "gloss": "TOTAL"}, {"id": 550, "gloss": "TOUR"}, {"id": 551, "gloss": "TRADE"}, {"id": 552, "gloss": "TRAIN"}, {"id": 553, "gloss": "TRAINING"}, {"id": 554, "gloss": "TRAP"}, {"id": 555, "gloss": "TRAVEL"}, {"id": 556, "gloss": "TREASURY"}, {"id": 557, "gloss": "TREAT"}, {"id": 558, "gloss": "TREATMENT"}, {"id": 559, "gloss": "TRUE"}, {"id": 560, "gloss": "TRUST"}, {"id": 561, "gloss": "TRY"}, {"id": 562, "gloss": "UNDER"}, {"id": 563, "gloss": "UNIT"}, {"id": 564, "gloss": "UNITE"}, {"id": 565, "gloss": "UNITY"}, {"id": 566, "gloss": "UNTIL"}, {"id": 567, "gloss": "US"}, {"id": 568, "gloss": "USE"}, {"id": 569, "gloss": "VALUE"}, {"id": 570, "gloss": "VERSUS"}, {"id": 571, "gloss": "VERY"}, {"id": 572, "gloss": "VICTIM"}, {"id": 573, "gloss": "VILLAGE"}, {"id": 574, "gloss": "VISIT"}, {"id": 575, "gloss": "VOICE"}, {"id": 576, "gloss": "VOTE"}, {"id": 577, "gloss": "VOTER"}, {"id": 578, "gloss": "WAIT"}, {"id": 579, "gloss": "WALK"}, {"id": 580, "gloss": "WAR"}, {"id": 581, "gloss": "WARN"}, {"id": 582, "gloss": "WASTE"}, {"id": 583, "gloss": "WATCH"}, {"id": 584, "gloss": "WATER"}, {"id": 585, "gloss": "WAY"}, {"id": 586, "gloss": "WEAK"}, {"id": 587, "gloss": "WEAPON"}, {"id": 588, "gloss": "WEEK"}, {"id": 589, "gloss": "WELCOME"}, {"id": 590, "gloss": "WHAT"}, {"id": 591, "gloss": "WHO"}, {"id": 592, "gloss": "WIDE"}, {"id": 593, "gloss": "WILDLIFE"}, {"id": 594, "gloss": "WILL"}, {"id": 595, "gloss": "WIN"}, {"id": 596, "gloss": "WITH"}, {"id": 597, "gloss": "WITNESS"}, {"id": 598, "gloss": "WORKER"}, {"id": 599, "gloss": "WORLD"}, {"id": 600, "gloss": "WORRY"}, {"id": 601, "gloss": "WORSE"}, {"id": 602, "gloss": "WRONG"}, {"id": 603, "gloss": "YEAR-2023"}, {"id": 604, "gloss": "YES"}, {"id": 605, "gloss": "YOUNG"}, {"id": 606, "gloss": "YOUR"}];
+
+    const grid = document.getElementById('grid');
+    const searchEl = document.getElementById('search');
+    const countLabel = document.getElementById('count-label');
+    const letterJump = document.getElementById('letter-jump');
+
+    // Build alphabet jump buttons
+    const letters = [...new Set(vocab.map(v => v.gloss[0]))].sort();
+    letters.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'letter-btn';
+      btn.textContent = l;
+      btn.onclick = () => {
+        searchEl.value = '';
+        renderCards(vocab.filter(v => v.gloss.startsWith(l)));
+        document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+      letterJump.appendChild(btn);
+    });
+
+    // Add "All" button
+    const allBtn = document.createElement('button');
+    allBtn.className = 'letter-btn active';
+    allBtn.textContent = 'All';
+    allBtn.onclick = () => {
+      searchEl.value = '';
+      renderCards(vocab);
+      document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+      allBtn.classList.add('active');
+    };
+    letterJump.prepend(allBtn);
+
+    function renderCards(items, query='') {
+      grid.innerHTML = '';
+      if (items.length === 0) {
+        grid.innerHTML = '<div class="no-results">No glosses found.</div>';
+      } else {
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card' + (query && item.gloss.includes(query.toUpperCase()) ? ' highlight' : '');
+          card.innerHTML = `<div class="gloss">${item.gloss}</div><div class="id">ID: ${item.id}</div>`;
+          grid.appendChild(card);
+        });
+      }
+      countLabel.textContent = `Showing ${items.length} of ${vocab.length}`;
+    }
+
+    searchEl.addEventListener('input', () => {
+      const q = searchEl.value.trim().toUpperCase();
+      document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+      if (!q) {
+        allBtn.classList.add('active');
+        renderCards(vocab);
+      } else {
+        renderCards(vocab.filter(v => v.gloss.includes(q)), q);
+      }
+    });
+
+    renderCards(vocab);
+  </script>
+</body>
+</html>

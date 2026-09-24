@@ -1,0 +1,58 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Data (not released — use pipeline to collect)
+data/
+datasets/
+*.mp4
+*.avi
+*.mov
+*.npy
+*.pkl
+*.hdf5
+
+# Checkpoints and model weights
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Logs
+logs/
+runs/
+*.log
+tensorboard/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment variables
+.env
+secrets.yaml
+
+# Archive files (not for version control)
+*.zip

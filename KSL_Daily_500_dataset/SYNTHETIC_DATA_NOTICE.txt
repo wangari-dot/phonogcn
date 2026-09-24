@@ -1,0 +1,43 @@
+SYNTHETIC DATA NOTICE
+=====================
+
+This dataset is a fully synthetic placeholder for the KSL-Daily-500
+benchmark described in the PhoneGCN paper.
+
+PURPOSE
+-------
+It exists to:
+  1. Allow reviewers and users to run the full PhoneGCN training and
+     evaluation pipeline end-to-end without real data.
+  2. Verify the data schema (manifests, skeleton arrays, crop paths)
+     that the pipeline expects.
+  3. Serve as a structural template for constructing the real dataset
+     from KBC/Citizen TV footage under a Research Data Use Agreement.
+
+WHAT IS SYNTHETIC
+-----------------
+  - Skeleton sequences: procedurally generated smooth trajectories through
+    signing space, informed by KSL phonological location categories
+    (Mweri 2018). They resemble signing motion but are NOT real KSL.
+  - Hand/face features: random unit vectors (NOT real image crops).
+  - Text: Swahili sentence templates with substituted tokens.
+  - Gloss-to-clip assignment: procedural (random), NOT annotated signing.
+
+WHAT IS REAL
+------------
+  - The gloss vocabulary (gloss_vocabulary.json) is the 607-gloss
+    expert-validated KSL vocabulary (source: cleaned_expert_validated.csv,
+    validated by KSL-fluent reviewers). The labels are real; their
+    assignment to these synthetic clips is not.
+
+REAL DATASET ACCESS
+-------------------
+  The real KSL-Daily-500 dataset is withheld under the Kenya Data
+  Protection Act 2019. Contact the corresponding author for access
+  under a Research Data Use Agreement.
+
+LICENSE
+-------
+  This synthetic dataset is released under CC BY 4.0.
+  You are free to use, share, and adapt it with attribution.
+  Cite: [PhoneGCN paper citation]
