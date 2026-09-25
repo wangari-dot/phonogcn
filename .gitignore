@@ -33,3 +33,6 @@ secrets.yaml
 *.mp4
 *.avi
 *.mov
+
+# Real broadcast-derived data: interpreter face/hand crops and skeletons (not released)
+KSL_Daily_500_dataset/KSL_Daily_500_real_10fps/

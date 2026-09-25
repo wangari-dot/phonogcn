@@ -1,0 +1,104 @@
+2026-09-25 09:04:44,280 INFO Training device: cuda
+2026-09-25 09:04:44,286 WARNING Only 2.1 training clips per gloss (843 clips / 393 glosses). The toolkit's coverage floor is 25 clips/gloss - see 05_coverage_report.py. Even with real footage this is too few to learn 393 classes.
+2026-09-25 09:04:44,410 INFO 
+============================================================
+Seed 1/1 (seed=42)
+============================================================
+/content/phonogcn_colab/code/pipeline/clustering.py:139: RuntimeWarning: divide by zero encountered in divide
+  d_inv_sqrt = np.where(degree > 0, 1.0 / np.sqrt(degree), 0.0)
+/content/phonogcn_colab/code/model/fusion.py:105: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.transformer = nn.TransformerEncoder(
+2026-09-25 09:04:44,784 INFO Trainable parameters: 14,550,325
+2026-09-25 09:04:44,789 INFO KSLDataset [train]: 843 samples
+2026-09-25 09:04:44,791 INFO KSLDataset [val]: 112 samples
+2026-09-25 09:04:44,792 INFO KSLDataset [test]: 44 samples
+Traceback (most recent call last):
+  File "/content/phonogcn_colab/code/train.py", line 515, in <module>
+    main(args)
+    ~~~~^^^^^^
+  File "/content/phonogcn_colab/code/train.py", line 457, in main
+    train_metrics = train_one_epoch(model, loaders["train"], optimizer,
+                                    scheduler, cfg, device, epoch)
+  File "/content/phonogcn_colab/code/train.py", line 212, in train_one_epoch
+    outputs = forward_batch(model, batch, device)
+  File "/content/phonogcn_colab/code/train.py", line 189, in forward_batch
+    return model(
+        batch["right_hand"].to(device),
+    ...<3 lines>...
+        batch["padding_mask"].to(device),
+    )
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/phonogcn_colab/code/model/phonogcn.py", line 204, in forward
+    fused, _, _, _ = self.encode(
+                     ~~~~~~~~~~~^
+        right_hand, left_hand, skeleton, face, padding_mask
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/content/phonogcn_colab/code/model/phonogcn.py", line 179, in encode
+    hand_feat = self.hand_stream(right_hand, left_hand)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/phonogcn_colab/code/model/hand_stream.py", line 165, in forward
+    r_emb = self.right_encoder(right_flat)    # (B*T, embed_dim)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/phonogcn_colab/code/model/hand_stream.py", line 99, in forward
+    x = self.blocks(x)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/phonogcn_colab/code/model/hand_stream.py", line 48, in forward
+    out = self.block(x)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/batchnorm.py", line 194, in forward
+    return F.batch_norm(
+           ~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<11 lines>...
+        self.eps,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/functional.py", line 2846, in batch_norm
+    return torch.batch_norm(
+           ~~~~~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<7 lines>...
+        torch.backends.cudnn.enabled,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.80 GiB. GPU 0 has a total capacity of 14.56 GiB of which 1.41 GiB is free. Including non-PyTorch memory, this process has 13.15 GiB memory in use. Of the allocated memory 13.01 GiB is allocated by PyTorch, and 25.58 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

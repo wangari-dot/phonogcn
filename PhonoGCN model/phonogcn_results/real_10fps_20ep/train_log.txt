@@ -1,0 +1,36 @@
+2026-09-25 12:40:05,954 INFO Training device: cuda
+2026-09-25 12:40:05,960 WARNING Only 2.1 training clips per gloss (843 clips / 393 glosses). The toolkit's coverage floor is 25 clips/gloss - see 05_coverage_report.py. Even with real footage this is too few to learn 393 classes.
+2026-09-25 12:40:06,094 INFO 
+============================================================
+Seed 1/1 (seed=42)
+============================================================
+/content/phonogcn_colab/code/pipeline/clustering.py:139: RuntimeWarning: divide by zero encountered in divide
+  d_inv_sqrt = np.where(degree > 0, 1.0 / np.sqrt(degree), 0.0)
+/content/phonogcn_colab/code/model/fusion.py:105: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.transformer = nn.TransformerEncoder(
+2026-09-25 12:40:06,581 INFO Trainable parameters: 14,550,325
+2026-09-25 12:40:06,590 INFO KSLDataset [train]: 843 samples
+2026-09-25 12:40:06,593 INFO KSLDataset [val]: 112 samples
+2026-09-25 12:40:06,594 INFO KSLDataset [test]: 44 samples
+2026-09-25 12:42:48,519 INFO Epoch 1/20 loss=48.4495 val_ctc=40.8346 val_wer=1.0000
+2026-09-25 12:45:35,151 INFO Epoch 2/20 loss=41.1484 val_ctc=40.8617 val_wer=1.0000
+2026-09-25 12:48:22,819 INFO Epoch 3/20 loss=40.9150 val_ctc=40.9938 val_wer=1.0000
+2026-09-25 12:51:09,408 INFO Epoch 4/20 loss=40.6160 val_ctc=40.7261 val_wer=1.0000
+2026-09-25 12:53:57,552 INFO Epoch 5/20 loss=40.1983 val_ctc=42.0133 val_wer=1.0000
+2026-09-25 12:56:44,840 INFO Epoch 6/20 loss=39.6887 val_ctc=41.6286 val_wer=1.0000
+2026-09-25 12:59:32,660 INFO Epoch 7/20 loss=39.2096 val_ctc=42.6024 val_wer=1.0000
+2026-09-25 13:02:19,779 INFO Epoch 8/20 loss=38.8166 val_ctc=43.3867 val_wer=1.0000
+2026-09-25 13:05:06,579 INFO Epoch 9/20 loss=38.4729 val_ctc=43.2382 val_wer=1.0000
+2026-09-25 13:07:54,267 INFO Epoch 10/20 loss=37.9986 val_ctc=43.0111 val_wer=1.0000
+2026-09-25 13:10:42,002 INFO Epoch 11/20 loss=37.6215 val_ctc=43.3587 val_wer=1.0000
+2026-09-25 13:13:29,515 INFO Epoch 12/20 loss=37.1534 val_ctc=43.7443 val_wer=1.0000
+2026-09-25 13:16:17,013 INFO Epoch 13/20 loss=36.7992 val_ctc=43.7298 val_wer=1.0000
+2026-09-25 13:19:04,226 INFO Epoch 14/20 loss=36.4664 val_ctc=43.8359 val_wer=1.0000
+2026-09-25 13:21:51,996 INFO Epoch 15/20 loss=36.1424 val_ctc=43.6488 val_wer=1.0000
+2026-09-25 13:24:39,297 INFO Epoch 16/20 loss=35.9251 val_ctc=43.9076 val_wer=1.0000
+2026-09-25 13:27:26,953 INFO Epoch 17/20 loss=35.6860 val_ctc=43.8285 val_wer=1.0000
+2026-09-25 13:30:14,682 INFO Epoch 18/20 loss=35.5551 val_ctc=43.8679 val_wer=1.0000
+2026-09-25 13:33:01,789 INFO Epoch 19/20 loss=35.5161 val_ctc=43.9853 val_wer=1.0000
+2026-09-25 13:35:50,133 INFO Epoch 20/20 loss=35.4454 val_ctc=43.8239 val_wer=1.0000
+2026-09-25 13:35:55,404 INFO Seed 1 done. best_val_wer=1.0000 test_wer=1.0000 → /content/drive/MyDrive/phonogcn_results/real_10fps_20ep/seed_42
+2026-09-25 13:35:55,422 INFO Training complete. test WER over 1 seed(s): 1.0000 ± 0.0000

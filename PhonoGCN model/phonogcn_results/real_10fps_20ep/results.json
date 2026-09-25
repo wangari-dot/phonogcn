@@ -1,0 +1,8 @@
+[
+  {
+    "seed": 42,
+    "best_val_wer": 1.0,
+    "test_wer": 1.0,
+    "test_ctc_loss": 41.555198669433594
+  }
+]

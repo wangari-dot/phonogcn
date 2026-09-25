@@ -50,6 +50,12 @@ def main():
             signer = row["signer_id"].strip()
             split = ("val" if signer in a.val_signers else
                      "test" if signer in a.test_signers else "train")
+            # pseudo_weight/source come from the annotations row when present
+            # (e.g. vocab-validated-but-not-video-verified pseudo-labels get
+            # discounted relative to full expert annotation) and fall back to
+            # the expert-annotation defaults otherwise.
+            pseudo_weight = float(row.get("pseudo_weight") or 1.0)
+            source = row.get("source") or "broadcast"
             manifests[split].append({
                 "clip_id": cid, "gloss": row["gloss"].strip(),
                 "gloss_sequence": " ".join(seq),
@@ -59,8 +65,8 @@ def main():
                 "duration_sec": round(len(sk) / fps, 2),
                 "n_frames": int(len(sk)), "fps": int(fps),
                 "n_joints": int(sk.shape[1]),
-                "synthetic": False, "pseudo_weight": 1.0,
-                "source": "broadcast",
+                "synthetic": False, "pseudo_weight": pseudo_weight,
+                "source": source,
                 "skeleton_path": f"skeletons/{cid}.npy",
                 "crops_path": f"crops/{cid}/",
             })
