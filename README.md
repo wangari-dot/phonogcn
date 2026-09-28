@@ -230,12 +230,12 @@ All hyperparameters are centralised in `config.py`. Key settings:
 If you use this code or pipeline, please cite:
 
 ```bibtex
-@article{phonogcn2025,
+@article{phonogcn2026,
   title     = {Phono-GCN: A Phonologically Informed Graph Convolutional Network
                for Low-Resource Kenyan Sign Language Recognition and Translation},
   author    = {Author One and Author Two and Author Three},
   journal   = {[Under Review]},
-  year      = {2025}
+  year      = {2026}
 }
 ```
 
