@@ -13,7 +13,7 @@ PhoneGCN is a phonologically informed graph convolutional network for low-resour
 - **5.8 pp improvement** over CorrNet (p < 0.01)
 - **18.40 BLEU-4** for gloss-to-text translation
 
-**Dataset Availability:** The KSL-Daily-500 dataset is provided in this repository as pre-extracted `.npy` feature files (MediaPipe pose, hand, and face keypoints). Raw video recordings are not released due to participant privacy obligations and ongoing community consultation. Researchers can use the included feature files directly for training and evaluation, or apply the provided pipeline code to collect equivalent datasets from broadcast media in their own contexts.
+**Dataset Availability:** The KSL-Daily-607 dataset is provided in this repository as pre-extracted `.npy` feature files (MediaPipe pose, hand, and face keypoints). Raw video recordings are not released due to participant privacy obligations and ongoing community consultation. Researchers can use the included feature files directly for training and evaluation, or apply the provided pipeline code to collect equivalent datasets from broadcast media in their own contexts.
 
 ---
 
